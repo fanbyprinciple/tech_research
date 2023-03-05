@@ -13,3 +13,8 @@ https://colab.research.google.com/drive/1odRsphM_N4DLOVSEzTbKg2MDS-LNn9XN -> pya
 
 https://github.com/akshaybahadur21/QuickDraw
 
+implementation
+
+https://colab.research.google.com/drive/1KF2DkEEtymTVxvcJ3QM6AQi2KK981pUb#scrollTo=USRK5-qIDOWh
+
+
