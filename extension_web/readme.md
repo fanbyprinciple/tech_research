@@ -20,3 +20,9 @@ another helpful link
 
 https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_second_WebExtension
 
+### buiding for google
+
+![](2023-03-09-13-11-37.png)
+
+https://medium.com/@ConnorFinnegan/how-to-make-a-simple-text-replacement-chrome-extension-3e7aa9fa301f
+
