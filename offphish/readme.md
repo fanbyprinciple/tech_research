@@ -48,8 +48,13 @@ https://github.com/mgeeky/Penetration-Testing-Tools/blob/master/phishing/phishin
 
 First of all you want your targeted user to actually open the mail and the attachment (remember there are also other forms of mail phishing, e.g. using links, but this post focuses on Microsoft Office attachments). Therefore, your pretext should match with the attachment type (e.g. sending a OneNote document to a technical user stating that this is an invoice could raise suspicion). The variety of Microsoft Office file extensions play in your favor here, for example one could abuse the fact that.XLL files (more on this later) do look like Excel (.xls or .xlsx) documents. Moreover Right-to-Left override-techniques might come in handy for certain scenario
 
-Right to left override:
+### Right to left override:
+
 https://attack.mitre.org/techniques/T1036/002/
+
+https://www.exandroid.dev/2022/03/21/initial-access-right-to-left-override-t1036002/
+
+https://github.com/ExAndroidDev/rtlo-attack
 
 ### Bypassing MOTW
 
@@ -89,10 +94,60 @@ The first strategy is to deliver your payload via software that does not set (or
 
 A good example of this is the Git client. The following picture shows that a file cloned from GitHub with the Git client does not have a Zone.Identifier ADS.
 
+    Utilizing software that does not set the MOTW (e.g. git)
+    Using containers, where Windows does not propagate the MOTW to files inside the container (e.g. .7z, .cab, ...)
+    Tricking the user to remove the MOTW by right clicking on the file, choosing “Properties” from the context menu and check the box that says “unblock”
+
+tools that support mark of the web
+https://github.com/nmantani/archiver-MOTW-support-comparison
+
+7z is capable to propagate the MOTW when extracting files, but it depends on how 7z is used. When a file is opened within the 7z UI, e.g. when double clicking the file, then the MOTW is propagated and macros are blocked. However, when a user right clicks the compressed 7z archive, selects to extract the file in the context menu and then opens the file, the MOTW is not propagated and macros can execute.
+
+### withstand AV scanning
+
+Payload design: When developing code for your campaign always try to keep a small footprint and evaluate your “detection” footprint when adding code. For example: You could consider implementing an AMSI bypass attempt in your VBA macro code, but if you can’t bring a custom, unknown technique the cost of this will likely not be worth the gain.
+
+file pumping: These techniques describe the idea to stuff benign content into a file to lower their detection rate. The idea of this is to evade or pass AV scans, based on the observation that some AVs skip files of certain size for performance reasons or lower the detection rate of malicious content if the frequency of “common document content” is high enough.
+
+Obfuscation: Standard, don’t make detection rates using static analysis too easy.
+
+Encryption: Note that we should differentiate between container and payload encryption in our campaign. We could use encryption within the container that carries our document, e.g. we could use encrypted ZIP archives, or encrypted Word/Excel/PowerPoint/X documents (which I refer to as container encryption) and we could encrypt our embedded payload(s), e.g. encrypted Shellcode, strings, or code elements (which I refer to as payload encryption).
+
+Container Encryption: While encrypting our container does help a lot against AV detection, it comes with two drawbacks that should be considered. First drawback: The en-/decryption must fit your campaign. Meaning if you encrypt your Office document with a custom password, you have to convince your target that there is a legit reason that a password must be entered. Also keep in mind that encrypting your document will not evade the MOTW. Therefore, if you run a campaign where your target has to extract your document from an unusual container type (to bypass MOTW), only to find out that they now also have to enter a password, might tip them off. Could be a pitfall, doesn’t have to be. Second drawback: Detection footprint. Some mail gateways will not allow encrypted ZIPs in the first place (which would return you to stage 1) and just being encrypted might raise the AV score of your document (again don’t read this as “you should not use encryption”, read it as “consider the costs of encryption”). Extra note: Some Office applications (Excel & PowerPoint) have a “common default password” that will decrypt a document on the fly without showing a prompt. In Excel the password VelvetSweatshop can be used (supported by all Excel formats), in PowerPoint /01Hannes Ruescher/01 (thanks to this tweet) can be used, but this only works with the .pps and .ppt format.
+
+payload encryption: Analogous to what I’ve said before, consider the costs of this. There is no user interaction here, so these costs do not apply, but there is also a detection footprint here. Consider where the decryption key is obtained from (file on disk, environment variable, pulled from webserver, volatile properties like current time, …) and what is needed for the decryption routine, e.g. are you using Win32 API functions? If yes, could these be hooked? Often times (depending on how custom your payload is) dynamic en-/decryption is very well worth the costs.
+
+VBA Stomping & VBA Purging: https://github.com/mgeeky/OfficePurge/
+
+AV/Sandbox detection routines: https://github.com/mgeeky/Penetration-Testing-Tools/blob/master/phishing/MacroDetectSandbox.vbs
+
+AV evasion: Consider what your document/implant is supposed to do (see “goals in the Execution section”), weigh that against static and “behavior” analysis capabilities of AV/EDR/XDRs of your targeted environment and apply your favorite evasion techniques. If your document contains malicious content that you want to hide from AVs you could consider sandbox evasion techniques that require human interaction, like clicking/accepting a message box or special triggers (see also the section about “triggers” in the following Execution stage) like hovering over an image before your exploit routine starts. If your document has a rather low footprint, but you’re looking for evasion techniques for an implant that you plan to download/drop/execute, you could look into techniques like anti-hooking, PPID spoofing, dynamic/sleep obfuscation, spawning of remote process, etc. Need more ideas? Get inspiration from this talk by @mariuszbit.
 
 
+    Commonly abused containers like .iso,.img,.cab are (currently) filtered by Outlook's inbound mail gateway and flagged by the Windows defender right away. At least in my off-the-shelf default Microsoft 365 playground.
+    
+    VBA Stomping appears (to me) not to be too fruitful any longer, as it’s well detected.
+    
+    When it comes to detection rates file formats can play a big role. I put a simple shellcode loader (Download + VirtualAlloc + CreateThread) into a VBA macro inside of an encrypted office document (Word & Excel) and found that the XML-based Office formats (e.g. .docm, .dotm) were not flag (0 detections), whereas the corresponding compound files (.doc, .dot) were flagged by multiple vendors (see the VirusTotal benchmark at the end of this post).
+
+Execution:  There is always more than one way to achieve your goal, although not every technique might be suitable for every goal.
+[For brevity I’ll skip implementation/execution details, but will link articles covering these]
+
+    VBA macro https://www.ired.team/offensive-security/initial-access/phishing-with-ms-office/t1137-office-vba-macros
+    XLM macro ([8][9][10][11]) https://vblocalhost.com/uploads/VB2020-61.pdf
+    DDE ([12][13][14])
+    Field codes ([15][16])
+    Embedded files (attachments & OLE elements)
+    Add-Ins (XLL [17][18][19][20], VSTO [21][22][23])
+    Lazy-loaded components & external references (template injection [24][25][26], CVE-2022–30190 aka Follina [27][28], CustomUI [29])
 
 
+# New Techniques
+
+1. right ot left override
+2. spam filter
+3. inbound vs outbound mails
+4. MOTW
 
 
 

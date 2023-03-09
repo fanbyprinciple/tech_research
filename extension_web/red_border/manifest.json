@@ -1,0 +1,25 @@
+{
+
+    "manifest_version": 2,
+    "name": "Red_border",
+    "version": "1.0",
+  
+    "description": "Adds a red border to all webpages matching google.com",
+  
+    "icons": {
+      "icons": {
+        "48": "icons/red.png",
+        "96": "icons/red.png"
+      }
+      
+    },
+  
+    "content_scripts": [
+      {
+        "matches": ["*://*.google.com/*"],
+        "js": ["red_border.js"]
+      }
+    ]
+  
+  }
+  
