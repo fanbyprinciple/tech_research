@@ -32,3 +32,16 @@ made an extension to make it bold
 
 ![](2023-03-10-03-30-22.png)
 
+## speed reader
+
+The issue here is that there are multiple words and fields inside fields (<a> contains <span>)
+
+![](2023-03-10-04-43-31.png)
+
+its gibberish if you dont select nicely
+
+![](2023-03-10-06-53-16.png)
+
+
+
+
