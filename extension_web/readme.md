@@ -26,3 +26,9 @@ https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_seco
 
 https://medium.com/@ConnorFinnegan/how-to-make-a-simple-text-replacement-chrome-extension-3e7aa9fa301f
 
+## Make it bold
+
+made an extension to make it bold
+
+![](2023-03-10-03-30-22.png)
+
