@@ -41,6 +41,7 @@ for (let i = 0; i < text.length; i++) {
         var newtexts = ""
 
         for (oldtext of splittext) {
+            
             // taking individual oldtext from the array 
             // modifying them and saving them as newtext
 
