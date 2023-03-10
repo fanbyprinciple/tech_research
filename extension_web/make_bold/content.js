@@ -1,14 +1,7 @@
-chrome.runtime.onMessage.addListener(gotMessage);
-function gotMessage(message, sender, sendResponse) {
-  if (message.txt === "hello") {
-    var selection = window.getSelection();
-    alert(selection);
-    boldText(selection);
-  }
-}
+const text = document.querySelectorAll('h1, h2, h3, h4, p, li, td, caption, span, a')
 
-function boldText(selection) {
-  alert(selection);
-  selection = selection.toString().bold();
-  return false;
+for (let i=0; i<text.length; i++){
+  if (text[i].innerHTML.includes('')){
+    text[i].innerHTML = text[i].innerHTML.replace('Tom Brady','')
+  }
 }
