@@ -42,6 +42,7 @@ its gibberish if you dont select nicely
 
 ![](2023-03-10-06-53-16.png)
 
+Need a way to deal with nested dom elements
 
-
+![](2023-03-10-20-21-31.png)
 

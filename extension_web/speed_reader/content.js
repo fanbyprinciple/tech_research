@@ -1,5 +1,6 @@
 const text = document.querySelectorAll('h1, h2, h3, h4, p, li, td, caption, span, a, b, div, em')
 
+
 const innerElements = ["<h1>", "<h2>", "<h3>", "<h4>", "<p>", "<li>", "<td>", "<caption>", "<span>", "<a>" ]
 
 // function containsAny(str, substrings) {
@@ -18,14 +19,17 @@ for (let i=0; i<text.length; i++){
     // will check if the text[i].innerHTML contains any of the innerElements if yes then ignore
     // else carry on
     //hasSpan = text[i].contains("<span>")
-    text
-    if (text[i].innerHTML.contains("<"))
+    
+    
+    innerHtmlText = text[i].innerHTML
+    if (innerHtmlText.includes("<") == false)
     // do it if it is not a span element
     {
-        console.log(text[i].hasChildNodes())
-        console.log(text[i])
-        console.log(text[i].outerHTML)
-        console.log(text[i].innerHTML)
+        // console.log(text[i].hasChildNodes())
+        // console.log(text[i])
+        // console.log(text[i].outerHTML)
+        // console.log(text[i].innerHTML)
+        //console.log(text[i].innerHTML)
         var multext = text[i].innerHTML
         // multiple words  in a sentence
 
@@ -48,14 +52,15 @@ for (let i=0; i<text.length; i++){
             newtext += "</b>"
             newtext += oldtext.substring(j)
             // adding the changed text to the newtexts
-            console.log(newtext)
+            // console.log(newtext)
             newtexts += " " + newtext
         }
         
-        //console.log(newtexts)
         // break
 
         text[i].innerHTML = newtexts
+
+        console.log(text[i].innerHTML)
 
     }
 
