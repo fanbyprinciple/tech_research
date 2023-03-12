@@ -63,8 +63,24 @@ for (let i = 0; i < text.length; i++) {
         //sconsole.log(text[i].innerHTML)
 
     } else {
-        splitbefore = text[i].innerHTML.split("<")
 
+        alltext = text[i].innerHTML
+        textCounter = 1
+        toChange = ""
+        for (let i=0; i<splitbefore.length; ++i){
+            if(alltext[i] == "<"){
+                textCounter = 0
+            }
+            if (textCounter){
+                toChange += alltext[i] 
+            }
+            if(alltext[i] == ">"){
+                textCounter = 1
+                
+            }
+
+
+        }
         console.log(splitbefore)
         break
     }
