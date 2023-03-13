@@ -28,7 +28,7 @@ for (let i = 0; i < text.length; i++) {
     {
         // console.log(text[i].hasChildNodes())
         // console.log(text[i])
-        console.log(text[i].outerHTML)
+        // console.log(text[i].outerHTML)
         // console.log(text[i].innerHTML)
         //console.log(text[i].innerHTML)
         var multext = text[i].innerHTML
@@ -66,22 +66,46 @@ for (let i = 0; i < text.length; i++) {
 
         alltext = text[i].innerHTML
         textCounter = 1
+        changedText = ""
         toChange = ""
-        for (let i=0; i<splitbefore.length; ++i){
+        for (let i=0; i<alltext.length; ++i){
             if(alltext[i] == "<"){
+                splitChange = toChange.split(" ")
+                 // newtexts will hold all the texts
+                var newtexts = ""
+
+                for (oldtext of splitChange) {
+                    // taking individual oldtext from the array 
+                    // modifying them and saving them as newtext
+
+                    var newtext = "<b>"
+                    let j = 0
+                    for (j = 0; j < oldtext.length / 2; ++j) {
+                        newtext += oldtext[j]
+                    }
+                    newtext += "</b>"
+                    newtext += oldtext.substring(j)
+                    // adding the changed text to the newtexts
+                    // console.log(newtext)
+                    newtexts += " " + newtext
+                }
+                changedText+= newtexts
                 textCounter = 0
             }
             if (textCounter){
                 toChange += alltext[i] 
+            } else {
+                changedText += alltext[i]
             }
             if(alltext[i] == ">"){
                 textCounter = 1
-                
             }
 
 
         }
-        console.log(splitbefore)
+        // console.log(splitbefore)
+        console.log(toChange)
+        text[i].innerHTML = changedText
         break
     }
 
