@@ -2,13 +2,15 @@ import pathlib
 import random
 
 
-def get_random_word():
+def get_random_word(all_poke):
 
-    pathlib.Path('wordlist.txt').read_text(encoding="utf-8")
+    """Get a random five-letter word from a list of strings.
 
-    all_poke = pathlib.Path("wordlist.txt")
+    ## Example:
 
-
+    >>> get_random_word(["snake", "worm", "it'll"])
+    'SNAKE'
+    """
     WORDLIST = [
         word.upper() for word in all_poke.read_text(encoding="utf-8").strip().split("\n") if len(word) == 7
     ]
@@ -45,7 +47,10 @@ def game_over(word):
 
 
 def main():
+    
+    pathlib.Path('wordlist.txt').read_text(encoding="utf-8")
 
+    all_poke = pathlib.Path("wordlist.txt")
     word = get_random_word()    
 
     for guess in range(1,7):
