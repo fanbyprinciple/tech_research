@@ -11,6 +11,7 @@ def get_random_word(all_poke):
     >>> get_random_word(["snake", "worm", "it'll"])
     'SNAKE'
     """
+    
     WORDLIST = [
         word.upper() for word in all_poke.read_text(encoding="utf-8").strip().split("\n") if len(word) == 7
     ]
