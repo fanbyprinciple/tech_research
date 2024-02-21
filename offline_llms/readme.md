@@ -17,3 +17,11 @@ https://github.com/PromptEngineer48/Ollama.git
 this works.
 
 need to create an ui
+
+![](2024-02-22-06-26-12.png)
+
+prvate gpt works, while installing poetry we need to setup environment variables as well
+
+bit is slow, cant take big documents
+
+https://medium.com/data-and-beyond/run-privategpt-on-windows-bf64fe2a02b8
