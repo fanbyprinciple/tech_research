@@ -25,3 +25,6 @@ prvate gpt works, while installing poetry we need to setup environment variables
 bit is slow, cant take big documents
 
 https://medium.com/data-and-beyond/run-privategpt-on-windows-bf64fe2a02b8
+
+bad performance
+![image](https://github.com/fanbyprinciple/tech_research/assets/29324589/671444ac-a7a6-4286-a847-b41decccbe68)
